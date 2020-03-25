@@ -1,0 +1,18 @@
+# global
+score_dir: ..\score_data\score_sp_npy
+result_dir: ..\results
+use_gpu: True
+
+# training
+train_list: score_train.txt
+validate_list: score_validate.txt
+epochs: 100
+batch_size: 100
+lr: 0.0001
+restart_dir: 
+
+# test
+test_list: score_test.txt
+test_dir: result_20200320-152137
+test_model_epoch: 48
+show_pca: True
