@@ -12,7 +12,7 @@ from sklearn.decomposition import PCA
 from matplotlib import pyplot
 from mpl_toolkits.mplot3d import Axes3D
 
-from lib.model import Estimator
+from predicting.model import Estimator
 
 # 学習済みモデルの配置先
 MODEL_DIR = "result"

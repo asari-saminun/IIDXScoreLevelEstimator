@@ -13,6 +13,6 @@ restart_dir:
 
 # test
 test_list: score_test.txt
-test_dir: result_20200320-152137
+test_dir: result_sample
 test_model_epoch: 48
-show_pca: True
+show_pca: False
