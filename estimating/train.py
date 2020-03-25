@@ -16,9 +16,9 @@ from chainer.training import Trainer
 from chainer.training import extensions
 from chainer.serializers import load_npz
 
-from lib.model import Estimator
-from lib.updater import EstimatorUpdater
-from lib.validator import Validator
+from predicting.model import Estimator
+from predicting.updater import EstimatorUpdater
+from predicting.validator import Validator
 
 # 設定ファイル
 CONFIG_FILE = "config.yaml"
