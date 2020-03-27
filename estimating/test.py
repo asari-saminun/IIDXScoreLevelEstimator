@@ -61,8 +61,8 @@ if __name__ == "__main__":
     for idx, npy_path in enumerate(test_paths):
         score = xp.load(npy_path)
         score[:, 8] /= 100.0
-        # 譜面を流れてくる順に直して小節ごとに区切る
-        score = score[::-1].reshape((-1, 1728))
+        # 譜面を小節ごとに区切る
+        score = score.reshape((-1, 1728))
         test_scores.append(score)
         score_name = os.path.basename(npy_path)
         test_score_names.append(score_name)
