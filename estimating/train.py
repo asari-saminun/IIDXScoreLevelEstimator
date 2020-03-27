@@ -54,8 +54,8 @@ def setup():
     for idx, npy_path in enumerate(train_paths):
         score = xp.load(npy_path)
         score[:, 8] /= 100.0
-        # 譜面を流れてくる順に直して小節ごとに区切る
-        score = score[::-1].reshape((-1, 1728))
+        # 譜面を小節ごとに区切る
+        score = score.reshape((-1, 1728))
         train_scores.append(score)
         train_score_lvs.append(int(os.path.basename(npy_path)[2], 16) - 1)
         sys.stdout.write("\rtrain score loaded: {0:4d}/{1}".format(idx+1, len(train_paths)))
@@ -71,8 +71,8 @@ def setup():
     for idx, npy_path in enumerate(val_paths):
         score = xp.load(npy_path)
         score[:, 8] /= 100.0
-        # 譜面を流れてくる順に直して小節ごとに区切る
-        score = score[::-1].reshape((-1, 1728))
+        # 譜面を小節ごとに区切る
+        score = score.reshape((-1, 1728))
         val_scores.append(score)
         score_name = os.path.basename(npy_path)
         val_score_lvs.append(int(score_name[2], 16) - 1)
