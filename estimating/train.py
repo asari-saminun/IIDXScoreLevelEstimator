@@ -47,9 +47,10 @@ def setup():
 
     # 学習データの読み込み
     train_scores = []
-    train_score_lvs = []
     with open(os.path.join(config["score_dir"], config["train_list"]), "r") as tr_f:
-        train_paths = list(map(lambda x: os.path.join(config["score_dir"], x.split("\n")[0]), tr_f.readlines()))
+        train_info = list(map(lambda x: x.split("\n")[0], tr_f.readlines()))
+        train_paths = list(map(lambda x: os.path.join(config["score_dir"], x.split("\t")[0]), train_info))
+        train_score_lvs = list(map(lambda x: int(x.split("\t")[1])-1, train_info))
 
     for idx, npy_path in enumerate(train_paths):
         score = xp.load(npy_path)
@@ -57,16 +58,16 @@ def setup():
         # 譜面を小節ごとに区切る
         score = score.reshape((-1, 1728))
         train_scores.append(score)
-        train_score_lvs.append(int(os.path.basename(npy_path)[2], 16) - 1)
         sys.stdout.write("\rtrain score loaded: {0:4d}/{1}".format(idx+1, len(train_paths)))
     sys.stdout.write("\n")
 
     # 検証データの読み込み
     val_scores = []
-    val_score_lvs = []
     val_score_names = []
     with open(os.path.join(config["score_dir"], config["validate_list"]), "r") as val_f:
-        val_paths = list(map(lambda x: os.path.join(config["score_dir"], x.split("\n")[0]), val_f.readlines()))
+        val_info = list(map(lambda x: x.split("\n")[0], val_f.readlines()))
+        val_paths = list(map(lambda x: os.path.join(config["score_dir"], x.split("\t")[0]), val_info))
+        val_score_lvs = list(map(lambda x: int(x.split("\t")[1])-1, val_info))
 
     for idx, npy_path in enumerate(val_paths):
         score = xp.load(npy_path)
@@ -75,7 +76,6 @@ def setup():
         score = score.reshape((-1, 1728))
         val_scores.append(score)
         score_name = os.path.basename(npy_path)
-        val_score_lvs.append(int(score_name[2], 16) - 1)
         val_score_names.append(score_name)
         sys.stdout.write("\rvalidate score loaded: {0:4d}/{1}".format(idx+1, len(val_paths)))
     sys.stdout.write("\n")
