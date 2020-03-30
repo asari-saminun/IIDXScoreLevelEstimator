@@ -79,7 +79,7 @@ config.yamlのscore_dir直下にscore_test.txt（config.yamlのtest_listに指�
 
 ### 4. 推論の実行
 
-カレントディレクトリをestimatingディレクトリにし、test.pyを実行してください。推論結果はデフォルトではresults/result_sample/result/test_epoch_48.txtに出力されます。正確には (result_dir)/(test_dir)/result/test_model_(test_model_epoch).txtが出力ファイルパスです。ただし括弧内の値はconfig.yamlの内容が反映されます。
+カレントディレクトリをestimatingディレクトリにし、test.pyを実行してください。推論結果はデフォルトではresults/result_sample/test_epoch_48.txtに出力されます。正確には (result_dir)/(test_dir)/test_model_(test_model_epoch).txtが出力ファイルパスです。ただし括弧内の値はconfig.yamlの内容が反映されます。
 
 ### 5. 推論結果の確認
 
