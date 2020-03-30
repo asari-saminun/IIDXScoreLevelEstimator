@@ -8,9 +8,6 @@ from chainer.backends import cuda
 from chainer.datasets import TupleDataset
 from chainer.iterators import SerialIterator
 from chainer.serializers import load_npz
-from sklearn.decomposition import PCA
-from matplotlib import pyplot
-from mpl_toolkits.mplot3d import Axes3D
 
 from predicting.model import Estimator
 
@@ -108,6 +105,10 @@ if __name__ == "__main__":
 
     # 主成分分析
     if config["show_pca"]:
+        from sklearn.decomposition import PCA
+        from matplotlib import pyplot
+        from mpl_toolkits.mplot3d import Axes3D
+        
         pca = PCA(n_components=3)
         units = np.array(unit_list)
         pca.fit(units)
