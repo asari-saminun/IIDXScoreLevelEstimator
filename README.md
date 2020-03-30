@@ -6,7 +6,7 @@ IIDXScoreEstimatorは、beatmaniaIIDXで再現可能な譜面のレベルを推�
 
 最低限必要なもの
 
-- Python 3.6
+- Python 3.6以上
 - Numpy
 - Chainer 7.2.0 (v6以上なら動くと思う)
 
@@ -22,28 +22,13 @@ IIDXScoreEstimatorは、beatmaniaIIDXで再現可能な譜面のレベルを推�
 
 以下の手順で行います。
 
-1. 譜面データを用意する。
-2. estimating/config.yamlを編集し、各種設定を行う。
+1. estimating/config.yamlを編集し、各種設定を行う。
+2. 譜面データを用意する。
 3. score_test.txtに譜面データのパスを書き込む。
 4. estimating/test.pyを実行する。
 5. 推論結果を確認する。
 
-### 1. 譜面データの用意
-
-譜面はnumpy.ndarrayの2次元配列として入力します。
-
-配列の1次元目はノーツのタイミングを表します。タイミングの最小単位は4分音符の48分の1（192分音符相当）です。
-2次元目は譜面のレーン（ターンテーブル+1～7鍵）とBPMを表します。　配列のBPM部分を除く各要素の値を以下のように設定してください。
-
-|  | ノーツ無し | ノーツあり | CN・HCN・BSS始点/終点 | CN・HCN・BSS途中 |
-|:-:|:-:|:-:|:-:|:-:|
-| 値 | 0 | 1 | 1 | 0.5 |
-
-※CN=チャージノート、HCN=ヘルチャージノート、BSS=バックスピンスクラッチ
-
-上記の要領で作成した全小節をひと繋ぎにし、1次元目の長さが192の倍数になるよう調節してください。
-
-### 2. config.yamlの編集
+### 1. config.yamlの編集
 
 実行前にestimate/config.yamlを編集します。とりあえず推論したいだけであれば、編集する必要のある項目はscore_dirとuse_gpuのみです。
 
@@ -69,11 +54,28 @@ IIDXScoreEstimatorは、beatmaniaIIDXで再現可能な譜面のレベルを推�
 - test_model_epoch: 学習モデルの学習回数。
 - show_pca: Trueならばtest.py実行時にテストデータの主成分分析を行う。
 
+### 2. 譜面データの用意
+
+譜面はnumpy.ndarrayの2次元配列として入力します。
+
+![backspinsweeper63_npy3](https://user-images.githubusercontent.com/8733064/77903285-8e4cba80-72bd-11ea-89b3-a687000981c7.png)
+
+配列の1次元目はノーツのタイミングを表します。タイミングの最小単位は4分音符の48分の1（192分音符相当）です。
+2次元目は譜面のレーン（ターンテーブル+1～7鍵）とBPMを表します。　配列のBPM部分を除く各要素の値を以下のように設定してください。
+
+|  | ノーツ無し | ノーツあり | CN・HCN・BSS始点/終点 | CN・HCN・BSS途中 |
+|:-:|:-:|:-:|:-:|:-:|
+| 値 | 0 | 1 | 1 | 0.5 |
+
+※CN=チャージノート、HCN=ヘルチャージノート、BSS=バックスピンスクラッチ
+
+上記の要領で作成した全小節をひと繋ぎにし、1次元目の長さが192の倍数になるよう調節してください。
+
 ### 3. score_test.txtの編集
 
 config.yamlのscore_dir直下にscore_test.txt（config.yamlのtest_listに指定したファイル名）を作成し、1.で作成した譜面データファイルのパスを書き込みます。ファイルのパスはscore_dirからの相対パスとし、1行に1つずつ羅列してください。
 
-
+![score_test](https://user-images.githubusercontent.com/8733064/77903660-2e0a4880-72be-11ea-98fa-c40c31b57de5.png)
 
 ### 4. 推論の実行
 
@@ -82,3 +84,9 @@ config.yamlのscore_dir直下にscore_test.txt（config.yamlのtest_listに指�
 ### 5. 推論結果の確認
 
 4.で出力されるファイルには以下の内容が含まれます。
+
+![test_model_48](https://user-images.githubusercontent.com/8733064/77903706-44b09f80-72be-11ea-8bad-a9222ef78453.png)
+
+- score_name: 推論した譜面ファイル名
+- lv: 推論結果のレベル
+- likelihoods: 各レベルの尤度（モデルの出力にソフトマックスを適用した値）
