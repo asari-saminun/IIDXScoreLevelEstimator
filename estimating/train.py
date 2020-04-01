@@ -10,6 +10,7 @@ import numpy as np
 import chainer
 from chainer.backends import cuda
 from chainer.optimizers import Adam
+from chainer.optimizer_hooks import WeightDecay
 from chainer.datasets import TupleDataset
 from chainer.iterators import SerialIterator
 from chainer.training import Trainer
@@ -86,6 +87,10 @@ def setup():
         model.to_device("@cupy:0")    
     optimizer = Adam(float(config["lr"]))
     optimizer.setup(model)
+
+    for param in model.params():
+        if param.name != "b":
+            param.update_rule.add_hook(WeightDecay(float(config["weight_decay_rate"])))
 
     # iterator, updater, trainer, extension
     train_dataset = TupleDataset(train_scores, train_score_lvs)
