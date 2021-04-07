@@ -80,7 +80,7 @@ def setup():
         sys.stdout.write("\rvalidate score loaded: {0:4d}/{1}".format(idx+1, len(val_paths)))
     sys.stdout.write("\n")
 
-    # optimizer
+    # model and optimizer
     model = Estimator()
     if xp is not np:
         model.to_device("@cupy:0")    

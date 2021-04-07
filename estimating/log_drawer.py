@@ -1,6 +1,5 @@
 import os
 import json
-import argparse
 import yaml
 import math
 
@@ -86,8 +85,7 @@ def parse_log(log_dir, log_info):
     v_out_path = os.path.join(log_dir, "validate")
     v_fig.savefig(v_out_path)
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()    
+if __name__ == "__main__":  
     # 設定ファイルの読み込み
     with open(CONFIG_FILE, "r") as f:
         config = yaml.load(f)
